@@ -1,0 +1,120 @@
+.omap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-sunken);
+}
+
+.omap__scene,
+.omap__particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Cesium injects its own wrappers inside the container; make them fill it. */
+.omap__scene > .cesium-viewer,
+.omap__scene .cesium-widget,
+.omap__scene .cesium-widget > canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* The streamline canvas sits over the globe but must never eat a click. */
+.omap__particles {
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* --------------------------------------------------------------------------
+   Toolbars
+   -------------------------------------------------------------------------- */
+.omap__tools {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  gap: var(--s2);
+  padding: var(--s2);
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--bg-surface) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.omap__tools--tl { top: var(--s4); left: var(--s4); }
+.omap__tools--tr { top: var(--s4); right: var(--s4); flex-direction: column; }
+
+/* --------------------------------------------------------------------------
+   Point reading
+   -------------------------------------------------------------------------- */
+.omap__pick {
+  position: absolute;
+  z-index: 6;
+  left: var(--s4);
+  bottom: var(--s10);
+  min-width: 190px;
+  padding: var(--s3) var(--s4) var(--s4);
+  border-radius: var(--r-lg);
+  background: var(--bg-surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+  animation: rise var(--dur) var(--ease);
+}
+.omap__pickHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-bottom: var(--s1);
+}
+.omap__pickValue {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: var(--fs-2xl);
+  font-weight: 600;
+  color: var(--text-strong);
+  line-height: 1.1;
+}
+.omap__pickUnits {
+  font-size: var(--fs-md);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.omap__pickWhere {
+  margin-top: 2px;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Affordance hint — people do not discover click-to-read on their own.
+   -------------------------------------------------------------------------- */
+.omap__hint {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: var(--s3);
+  transform: translateX(-50%);
+  padding: 5px var(--s4);
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--bg-surface) 85%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  pointer-events: none;
+  white-space: nowrap;
+  max-width: calc(100% - var(--s8));
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 700px) {
+  .omap__hint { display: none; }
+  .omap__tools--tl { top: auto; bottom: var(--s4); }
+}

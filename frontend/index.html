@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="INDO-FOS — plain-language ocean conditions and full forecasting tools for the Indian Ocean. Ministry of Earth Sciences, Government of India."
+    />
+    <meta name="theme-color" content="#1a4d81" />
+    <title>INDO-FOS — Indian Ocean Forecasting &amp; Observing System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Paint the shell's background before the bundle parses, so the first
+         frame is not a white flash in dark mode or a dark flash in light. */
+      :root { color-scheme: light dark; }
+      html, body { margin: 0; height: 100%; background: #f4f7fa; }
+      @media (prefers-color-scheme: dark) {
+        html:not([data-theme="light"]), html:not([data-theme="light"]) body { background: #060f1c; }
+      }
+      html[data-theme="dark"], html[data-theme="dark"] body { background: #060f1c; }
+      html[data-theme="light"], html[data-theme="light"] body { background: #f4f7fa; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <p style="font-family: system-ui, sans-serif; padding: 24px">
+        INDO-FOS needs JavaScript to draw the ocean map. The underlying data is also available
+        without it, as an OGC WMS service and a REST API at <code>/api/v1</code>.
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,251 @@
+/* ==========================================================================
+   Deep — launcher dock
+   ========================================================================== */
+.deepDock {
+  position: absolute;
+  left: 12px;
+  bottom: 84px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  background: rgba(9, 18, 30, 0.9);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(10px);
+  z-index: 22;
+  transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+}
+
+.deepDock:hover:not(:disabled) {
+  border-color: var(--cyan-dim);
+  color: var(--text-primary);
+}
+
+.deepDock:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deepDock--live {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: rgba(12, 42, 66, 0.92);
+}
+
+.deepDock__label {
+  text-transform: uppercase;
+}
+
+.deepDock__pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+  animation: deepPulse 1.9s ease-out infinite;
+}
+
+@keyframes deepPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.65); }
+  70%  { box-shadow: 0 0 0 9px rgba(56, 189, 248, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+}
+
+/* ==========================================================================
+   Deep — stage
+   ========================================================================== */
+.deepStage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  padding: 0 16px 88px 8px;
+  pointer-events: none;
+  z-index: 21;
+}
+
+.deepStage__avatar {
+  flex-shrink: 0;
+  pointer-events: none;
+  margin-bottom: -18px;
+}
+
+.deepStage__panel {
+  width: 350px;
+  max-width: 44%;
+  margin-bottom: 26px;
+  padding: 11px 13px 12px;
+  border-radius: var(--r-lg);
+  background: rgba(7, 15, 26, 0.93);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-pop);
+  pointer-events: auto;
+  animation: deepPanelIn 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes deepPanelIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.deepStage__head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 9px;
+}
+
+.deepStage__name {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--cyan);
+}
+
+.deepStage__state {
+  flex: 1;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.deepStage__state--listening { color: var(--cyan); }
+.deepStage__state--thinking  { color: var(--amber); }
+.deepStage__state--speaking  { color: var(--teal); }
+
+.deepStage__close {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--r-sm);
+  color: var(--text-faint);
+}
+
+.deepStage__close:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ---- Transcript ---------------------------------------------------------- */
+.deepStage__transcript {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  max-height: 230px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.deepTurn__text {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.deepTurn--user .deepTurn__text {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.deepTurn--user .deepTurn__text::before {
+  content: "“";
+}
+.deepTurn--user .deepTurn__text::after {
+  content: "”";
+}
+
+.deepTurn--partial .deepTurn__text {
+  opacity: 0.6;
+}
+
+.deepTurn--assistant .deepTurn__text {
+  color: var(--text-primary);
+}
+
+.deepTurn__actions {
+  list-style: none;
+  margin: 5px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.deepTurn__actions li {
+  padding: 2px 7px;
+  border-radius: var(--r-sm);
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.26);
+  font-size: var(--fs-micro);
+  color: var(--cyan);
+}
+
+.deepStage__busy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+
+.deepStage__error {
+  margin: 4px 0 0;
+  padding: 7px 9px;
+  border-radius: var(--r-sm);
+  background: var(--danger-bg);
+  border: 1px solid rgba(239, 75, 82, 0.3);
+  font-size: var(--fs-micro);
+  line-height: 1.5;
+  color: #ffb3b6;
+}
+
+/* ---- Hints --------------------------------------------------------------- */
+.deepStage__hints {
+  list-style: none;
+  margin: 9px 0 0;
+  padding: 9px 0 0;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.deepStage__hints button {
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--fs-micro);
+  transition: color 0.13s ease, border-color 0.13s ease;
+}
+
+.deepStage__hints button:hover {
+  color: var(--cyan);
+  border-color: var(--cyan-dim);
+}
+
+.deepStage__foot {
+  margin: 8px 0 0;
+  font-size: var(--fs-micro);
+  color: var(--text-faint);
+}
+
+@media (max-width: 1280px) {
+  .deepStage__panel { max-width: 60%; }
+  .deepStage__avatar { transform: scale(0.82); transform-origin: bottom left; }
+}

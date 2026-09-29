@@ -1,0 +1,150 @@
+.scrub {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: var(--scrub-h);
+  padding: 0 18px 0 12px;
+  border-radius: var(--r-xl);
+  background: rgba(8, 16, 27, 0.88);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(11px);
+  box-shadow: var(--shadow-panel);
+  z-index: 14;
+}
+
+/* ---- Transport ----------------------------------------------------------- */
+.scrub__play {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1.6px solid var(--amber);
+  color: var(--amber);
+  transition: background 0.14s ease, color 0.14s ease, transform 0.1s ease;
+}
+
+.scrub__play:hover {
+  background: var(--amber);
+  color: #1a1002;
+}
+
+.scrub__play:active { transform: scale(0.94); }
+
+.scrub__skip {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: var(--text-muted);
+}
+
+.scrub__skip:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ---- Track --------------------------------------------------------------- */
+.scrub__track {
+  flex: 1;
+  min-width: 0;
+}
+
+.scrub__labels {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.scrub__now {
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.scrub__rail {
+  position: relative;
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.scrub__rail::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: var(--r-pill);
+  background: var(--border);
+}
+
+.scrub__fill {
+  position: absolute;
+  left: 0;
+  height: 3px;
+  border-radius: var(--r-pill);
+  background: var(--amber);
+  pointer-events: none;
+}
+
+.scrub__ticks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scrub__ticks span {
+  position: absolute;
+  top: 50%;
+  width: 1px;
+  height: 7px;
+  margin-top: -3.5px;
+  background: var(--border-strong);
+}
+
+.scrub__ticks span.is-current {
+  height: 11px;
+  margin-top: -5.5px;
+  background: var(--amber);
+}
+
+.scrub__input {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  background: transparent;
+  --accent: var(--amber);
+}
+
+.scrub__input::-webkit-slider-thumb {
+  width: 15px;
+  height: 15px;
+  background: var(--amber);
+  border: 2px solid #08101b;
+  box-shadow: 0 0 0 1px var(--amber), 0 0 10px var(--amber-glow);
+}
+
+/* ---- Rate ---------------------------------------------------------------- */
+.scrub__rate {
+  height: 30px;
+  padding: 0 8px;
+  flex-shrink: 0;
+  border-radius: var(--r-md);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}
+
+.scrub__rate option { background: var(--bg-raised); }

@@ -1,0 +1,326 @@
+/* ==========================================================================
+   Application frame
+   ========================================================================== */
+
+.shell {
+  display: grid;
+  grid-template-areas:
+    "mast mast"
+    "side main";
+  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  width: 100%;
+  background: var(--bg-app);
+}
+.shell--narrow { grid-template-columns: var(--sidebar-w-collapsed) 1fr; }
+
+.shell__main {
+  grid-area: main;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.shell__main:focus { outline: none; }
+
+/* ==========================================================================
+   Masthead
+
+   The tricolour rule under the bar is the only place the flag colours appear
+   at full saturation. It reads as an official government product without
+   turning the interface into a decoration exercise.
+   ========================================================================== */
+.mast {
+  grid-area: mast;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s5);
+  min-height: var(--topbar-h);
+  padding: var(--s2) var(--s5);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--line);
+  z-index: 20;
+}
+.mast::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -3px 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    #ff9933 0 33.33%,
+    #ffffff 33.33% 66.66%,
+    #138808 66.66% 100%
+  );
+}
+:root[data-theme="dark"] .mast::after {
+  background: linear-gradient(
+    90deg,
+    #ff9933 0 33.33%,
+    #d8e4ee 33.33% 66.66%,
+    #138808 66.66% 100%
+  );
+}
+
+.mast__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-width: 0;
+}
+.mast__emblem {
+  width: 30px;
+  height: 38px;
+  flex: none;
+  color: var(--accent-text);
+}
+.mast__names { min-width: 0; }
+.mast__gov {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mast__title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  min-width: 0;
+}
+.mast__full {
+  font-size: var(--fs-sm);
+  font-weight: 450;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Status --------------------------------------------------------------- */
+.mast__status {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin-left: auto;
+  min-width: 0;
+}
+.mast__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px var(--s3);
+  border-radius: var(--r-pill);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.mast__pill--ok     { background: var(--ok-soft);     color: var(--ok-text); }
+.mast__pill--warn   { background: var(--warn-soft);   color: var(--warn-text); }
+.mast__pill--danger { background: var(--danger-soft); color: var(--danger-text); }
+
+.mast__pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.mast__clock {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.mast__busy {
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+/* ---- Actions -------------------------------------------------------------- */
+.mast__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  flex: none;
+}
+.mast__lang {
+  font-size: var(--fs-label);
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-left: -6px;
+  margin-right: var(--s1);
+}
+
+.mast__bell { position: relative; display: grid; place-items: center; }
+.mast__badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: var(--r-pill);
+  background: var(--danger);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+.side {
+  grid-area: side;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding: var(--s4) var(--s3);
+  background: var(--bg-surface);
+  border-right: 1px solid var(--line);
+  overflow-y: auto;
+  scrollbar-width: none;
+  z-index: 10;
+}
+.side::-webkit-scrollbar { display: none; }
+
+.side__list { display: flex; flex-direction: column; gap: 2px; }
+
+.side__item {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0 var(--s3);
+  border-radius: var(--r-md);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: left;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.side__item:hover { background: var(--bg-hover); color: var(--text-strong); }
+.side__item--on {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.side__item svg { flex: none; }
+.side__label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.shell--narrow .side__label { display: none; }
+.shell--narrow .side__item { justify-content: center; padding: 0; }
+
+.side__foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line-subtle);
+}
+.side__note {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  line-height: var(--lh);
+  color: var(--text-faint);
+}
+.side__note svg { flex: none; margin-top: 3px; }
+.side__link {
+  color: var(--accent-text);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.side__collapse {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-height: 36px;
+  padding: 0 var(--s3);
+  border-radius: var(--r-md);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-faint);
+}
+.side__collapse:hover { background: var(--bg-hover); color: var(--text-strong); }
+.shell--narrow .side__collapse { justify-content: center; padding: 0; }
+
+/* ==========================================================================
+   Responsive
+
+   Below 960px the sidebar becomes a scrolling strip under the masthead. A
+   phone gets the same sections, not a reduced product — a fisher checking the
+   sea before dawn is on a phone, and that is the primary case, not the
+   fallback.
+   ========================================================================== */
+@media (max-width: 960px) {
+  .shell,
+  .shell--narrow {
+    grid-template-areas:
+      "mast"
+      "side"
+      "main";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .mast {
+    flex-wrap: wrap;
+    gap: var(--s3);
+    padding: var(--s3) var(--s4);
+  }
+  .mast__full { display: none; }
+  .mast__status { order: 3; width: 100%; margin-left: 0; }
+  .mast__actions { margin-left: auto; }
+
+  .side {
+    flex-direction: row;
+    align-items: center;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding: var(--s2) var(--s3);
+    overflow-x: auto;
+  }
+  .side__list { flex-direction: row; gap: var(--s1); }
+  .side__item { min-height: 40px; padding: 0 var(--s3); }
+  .side__item--on { box-shadow: inset 0 -3px 0 var(--accent); }
+  .side__foot { display: none; }
+  .shell--narrow .side__label { display: revert; }
+}
+
+@media (max-width: 560px) {
+  .mast__gov { display: none; }
+  .mast__clock { display: none; }
+  .side__label { display: none; }
+  .side__item { min-width: 46px; justify-content: center; padding: 0 var(--s2); }
+}
+
+@media print {
+  .mast__actions,
+  .side,
+  .skip { display: none !important; }
+  .shell { display: block; height: auto; }
+  .shell__main { overflow: visible; }
+}

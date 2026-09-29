@@ -1,0 +1,34 @@
+.deepAvatar {
+  display: block;
+  pointer-events: none;
+  /* The particle field is drawn dark-on-transparent; a soft glow lifts it off
+     the globe without needing an opaque backing plate. */
+  filter: drop-shadow(0 0 26px rgba(56, 189, 248, 0.28));
+  transition: opacity 0.42s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.deepAvatar--hidden {
+  opacity: 0;
+  transform: scale(0.86);
+}
+
+.deepAvatar--assembling {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.deepAvatar--idle {
+  opacity: 1;
+}
+
+.deepAvatar--listening {
+  filter: drop-shadow(0 0 34px rgba(56, 189, 248, 0.55));
+}
+
+.deepAvatar--thinking {
+  filter: drop-shadow(0 0 30px rgba(240, 161, 46, 0.42));
+}
+
+.deepAvatar--speaking {
+  filter: drop-shadow(0 0 32px rgba(45, 212, 191, 0.48));
+}
