@@ -57,7 +57,7 @@ class Settings(BaseSettings):
     cors_allow_credentials: bool = False
 
     # Trusted Host protection (Host header / DNS-rebinding defence).
-    allowed_hosts: list[str] = ["localhost", "127.0.0.1", "testserver", "*.incois.gov.in"]
+    allowed_hosts: list[str] = ["localhost", "127.0.0.1", "testserver", "*"*.incois.gov.in", "*.onrender.com"]
 
     # Token-bucket rate limiting, per client IP.
     rate_limit_enabled: bool = True
