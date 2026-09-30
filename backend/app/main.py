@@ -8,13 +8,15 @@ Run with::
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import AsyncIterator
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 
 from app.api.v1.router import api_router
 from app.config import settings
@@ -180,20 +182,36 @@ def create_app() -> FastAPI:
     register_exception_handlers(app, debug=settings.debug)
     app.include_router(api_router)
 
+    # Serve the React frontend from the same FastAPI service.
+    frontend_dist = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+    if frontend_dist.exists():
+        app.mount("/assets", StaticFiles(directory=frontend_dist / "assets"), name="assets")
+        if (frontend_dist / "cesium").exists():
+            app.mount("/cesium", StaticFiles(directory=frontend_dist / "cesium"), name="cesium")
+        if (frontend_dist / "cesium").exists():
+            app.mount("/cesium", StaticFiles(directory=frontend_dist / "cesium"), name="cesium")
+
     @app.get("/", include_in_schema=False)
-    async def root() -> JSONResponse:
+    async def root():
+        if frontend_dist.exists():
+            return FileResponse(frontend_dist / "index.html")
         return JSONResponse(
             {
                 "service": settings.app_name,
                 "version": settings.version,
-                "problem_statement": "SIH26067 - MoES / INCOIS",
                 "docs": "/docs",
-                "openapi": "/openapi.json",
                 "health": "/api/v1/health",
-                "capabilities": "/api/v1/health/info",
-                "wms_capabilities": "/api/v1/wms?SERVICE=WMS&REQUEST=GetCapabilities",
             }
         )
+
+    @app.get("/{path:path}", include_in_schema=False)
+    async def frontend_fallback(path: str):
+        if frontend_dist.exists():
+            requested = frontend_dist / path
+            if requested.is_file():
+                return FileResponse(requested)
+            return FileResponse(frontend_dist / "index.html")
+        return JSONResponse({"detail": "Frontend not built"}, status_code=404)
 
     return app
 
