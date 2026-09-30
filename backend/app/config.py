@@ -52,6 +52,7 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "http://localhost:3000",
         "http://127.0.0.1:5173",
+        "https://sih2026-ocean-p5vd.onrender.com",
         "http://127.0.0.1:3000",
     ]
     cors_allow_credentials: bool = False
